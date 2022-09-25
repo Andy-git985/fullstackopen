@@ -51,14 +51,18 @@ const App = () => {
   //   console.log('clicked');
   // };
 
-  // from stateful component
+  // from Stateful component
   // setTimeout(() => setCounter(counter + 1), 1000);
+
+  const increaseByOne = () => setCounter(counter + 1);
+
+  const setToZero = () => setCounter(0);
 
   return (
     <div>
       <div>{counter}</div>
-      <button onClick={() => setCounter(counter + 1)}>plus</button>
-      <button onClick={() => setCounter(0)}>zero</button>
+      <button onClick={increaseByOne}>plus</button>
+      <button onClick={setToZero}>zero</button>
     </div>
   );
 };
