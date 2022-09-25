@@ -5,7 +5,7 @@ import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 
-//Page re-rendering
+// Page re-rendering
 // let counter = 1;
 
 // const refresh = () => {
