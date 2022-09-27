@@ -18,7 +18,7 @@ const Total = ({ parts }) => {
 
 const Course = ({ courses }) =>
   courses.map((course) => (
-    <div>
+    <div key={course.id}>
       <Header course={course} />
       <Content parts={course.parts} />
       <Total parts={course.parts} />
