@@ -8,8 +8,8 @@ const Country = ({ country }) => {
       <div>area {country.area}</div>
       <h3>languages:</h3>
       <ul>
-        {Object.values(country.languages).map((l) => {
-          return <li>{l}</li>;
+        {Object.entries(country.languages).map((l) => {
+          return <li key={l[0]}>{l[1]}</li>;
         })}
       </ul>
       <div>

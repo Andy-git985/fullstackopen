@@ -20,8 +20,10 @@ const Filter = ({ countries, filter, handleFilterChange }) => {
             ))
           : filterResults.length < 10
           ? filterResults.map((country) => (
-              <div key={country.cca3}>{country.name.common}</div>
-              // <Country key={country.cca3} name={country.name} />
+              <div key={country.cca3}>
+                <span>{country.name.common}</span>
+                <button>show</button>
+              </div>
             ))
           : 'Too many matches, specify another filter'}
       </div>
