@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PersonForm from './components/PersonForm';
-import Persons from './components/Persons';
+import Person from './components/Person';
 import Filter from './components/Filter';
 import personService from './services/person';
 
@@ -42,6 +42,22 @@ const App = () => {
 
   const handleFilterChange = (event) => setFilter(event.target.value);
 
+  const removePerson = (id) => {
+    const baseUrl = 'http://localhost:3001/persons';
+    const changedObject = persons.filter((p) => p.id !== id);
+    console.log(changedObject);
+    axios
+      .delete(`${baseUrl}/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setPersons(changedObject);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -59,7 +75,16 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} />
+      {persons.map((person) => {
+        return (
+          <Person
+            key={person.id}
+            name={person.name}
+            number={person.number}
+            handleClick={() => removePerson(person.id)}
+          />
+        );
+      })}
     </div>
   );
 };
