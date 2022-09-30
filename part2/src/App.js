@@ -1,4 +1,4 @@
-// c: Getting data from the server -Effect-hooks
+// c: Altering data in server -Sending Data to the Server
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Note from './components/Note';
@@ -7,16 +7,6 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('a new note...');
   const [showAll, setShowAll] = useState(true);
-
-  // const hook = () => {
-  //   console.log('effect');
-  //   axios.get('http://localhost:3001/notes').then((response) => {
-  //     console.log('promise fulfilled');
-  //     setNotes(response.data);
-  //   });
-  // };
-
-  // useEffect(hook, []);
 
   useEffect(() => {
     console.log('effect');
@@ -36,8 +26,10 @@ const App = () => {
       important: Math.random() < 0.5,
       id: notes.length + 1,
     };
-    setNotes(notes.concat(noteObject));
-    setNewNote('');
+    axios.post('http://localhost:3001/notes', noteObject).then((response) => {
+      setNotes(notes.concat(response.data));
+      setNewNote('');
+    });
   };
 
   const handleNoteChange = (event) => {

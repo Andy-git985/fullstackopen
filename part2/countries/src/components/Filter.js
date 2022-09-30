@@ -1,7 +1,12 @@
 import React from 'react';
 import Country from './Country';
 
-const Filter = ({ countries, filter, handleFilterChange }) => {
+const Filter = ({
+  countries,
+  filter,
+  handleFilterChange,
+  handleCountryChange,
+}) => {
   const filterResults = countries.filter((e) =>
     e.name.common.toLowerCase().includes(filter.toLowerCase())
   );
@@ -22,7 +27,9 @@ const Filter = ({ countries, filter, handleFilterChange }) => {
           ? filterResults.map((country) => (
               <div key={country.cca3}>
                 <span>{country.name.common}</span>
-                <button>show</button>
+                <button onClick={() => handleCountryChange(country)}>
+                  show
+                </button>
               </div>
             ))
           : 'Too many matches, specify another filter'}
