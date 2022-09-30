@@ -44,17 +44,20 @@ const App = () => {
   const handleFilterChange = (event) => setFilter(event.target.value);
 
   const removePerson = (id) => {
-    const changedObject = persons.filter((p) => p.id !== id);
-    personService
-      .remove(id)
-      .then((status) => {
-        if (status === 200) {
-          setPersons(changedObject);
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    const person = persons.find((p) => p.id === id);
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      const changedObject = persons.filter((p) => p.id !== id);
+      personService
+        .remove(id)
+        .then((status) => {
+          if (status === 200) {
+            setPersons(changedObject);
+          }
+        })
+        .catch((error) => {
+          alert(error);
+        });
+    }
   };
 
   return (
