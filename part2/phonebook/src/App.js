@@ -20,28 +20,47 @@ const App = () => {
 
   console.log('render', persons.length, 'persons');
 
-  const addPerson = (event) => {
+  const handleAddPerson = (event) => {
     event.preventDefault();
-    if (persons.map((e) => e.name).includes(newName)) {
+    const person = persons.find((e) => e.name === newName);
+    if (person && person.number !== newNumber) {
+      if (
+        window.confirm(
+          `${newName} is already added to phone book, replace the old number with a new one?`
+        )
+      ) {
+        const updatedPerson = { ...person, number: newNumber };
+        updatePerson(person.id, updatedPerson);
+      }
+    } else if (persons && person.number === newNumber) {
       alert(`${newName} is already in the phonebook`);
     } else {
       const personObject = {
         name: newName,
         number: newNumber,
       };
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName('');
-        setNewNumber('');
-      });
+      addPerson(personObject);
     }
   };
 
-  const handleNameChange = (event) => setNewName(event.target.value);
+  const addPerson = (newObject) => {
+    personService.create(newObject).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson));
+      setNewName('');
+      setNewNumber('');
+    });
+  };
 
-  const handleNumberChange = (event) => setNewNumber(event.target.value);
-
-  const handleFilterChange = (event) => setFilter(event.target.value);
+  const updatePerson = (id, updatedPerson) => {
+    personService
+      .update(id, updatedPerson)
+      .then((returnedPerson) => {
+        setPersons(persons.map((p) => (p.id !== id ? p : returnedPerson)));
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
 
   const removePerson = (id) => {
     const person = persons.find((p) => p.id === id);
@@ -60,6 +79,12 @@ const App = () => {
     }
   };
 
+  const handleNameChange = (event) => setNewName(event.target.value);
+
+  const handleNumberChange = (event) => setNewNumber(event.target.value);
+
+  const handleFilterChange = (event) => setFilter(event.target.value);
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -70,7 +95,7 @@ const App = () => {
       />
       <h2>add a new</h2>
       <PersonForm
-        addPerson={addPerson}
+        handleAddPerson={handleAddPerson}
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
