@@ -29,6 +29,12 @@
       "date": "2022-09-30T01:39:18.098Z",
       "important": true,
       "id": 5
+    },
+    {
+      "content": "This is another test note",
+      "date": "2022-09-30T02:30:32.452Z",
+      "important": false,
+      "id": 7
     }
   ]
 }
