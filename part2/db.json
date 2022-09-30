@@ -21,7 +21,7 @@
     {
       "content": "My new note yay",
       "date": "2022-09-30T01:38:13.573Z",
-      "important": false,
+      "important": true,
       "id": 4
     },
     {
