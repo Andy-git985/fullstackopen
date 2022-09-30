@@ -4,6 +4,7 @@ import PersonForm from './components/PersonForm';
 import Person from './components/Person';
 import Filter from './components/Filter';
 import personService from './services/person';
+import person from './services/person';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -43,13 +44,11 @@ const App = () => {
   const handleFilterChange = (event) => setFilter(event.target.value);
 
   const removePerson = (id) => {
-    const baseUrl = 'http://localhost:3001/persons';
     const changedObject = persons.filter((p) => p.id !== id);
-    console.log(changedObject);
-    axios
-      .delete(`${baseUrl}/${id}`)
-      .then((response) => {
-        if (response.status === 200) {
+    personService
+      .remove(id)
+      .then((status) => {
+        if (status === 200) {
           setPersons(changedObject);
         }
       })
