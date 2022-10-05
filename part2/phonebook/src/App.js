@@ -45,15 +45,20 @@ const App = () => {
 
   const addPerson = (newObject) => {
     console.log('working');
-    personService.create(newObject).then((returnedPerson) => {
-      setMessage(`Added ${newName}`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
-      setPersons(persons.concat(returnedPerson));
-      setNewName('');
-      setNewNumber('');
-    });
+    personService
+      .create(newObject)
+      .then((returnedPerson) => {
+        setMessage(`Added ${newName}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+        setPersons(persons.concat(returnedPerson));
+        setNewName('');
+        setNewNumber('');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const updatePerson = (id, updatedPerson) => {
@@ -63,7 +68,12 @@ const App = () => {
         setPersons(persons.map((p) => (p.id !== id ? p : returnedPerson)));
       })
       .catch((error) => {
-        alert(error);
+        setMessage(
+          `Information of ${newName} has already been removed from server`
+        );
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
   };
 
@@ -79,7 +89,12 @@ const App = () => {
           }
         })
         .catch((error) => {
-          alert(error);
+          setMessage(
+            `Information of ${newName} has already been removed from server`
+          );
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
         });
     }
   };
