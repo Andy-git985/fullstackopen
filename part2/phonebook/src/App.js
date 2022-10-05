@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import PersonForm from './components/PersonForm';
-import Person from './components/Person';
 import Filter from './components/Filter';
+import Notification from './components/Notification';
+import Person from './components/Person';
+import PersonForm from './components/PersonForm';
 import personService from './services/person';
-import person from './services/person';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -32,7 +32,7 @@ const App = () => {
         const updatedPerson = { ...person, number: newNumber };
         updatePerson(person.id, updatedPerson);
       }
-    } else if (persons && person.number === newNumber) {
+    } else if (person && person.number === newNumber) {
       alert(`${newName} is already in the phonebook`);
     } else {
       const personObject = {
@@ -44,7 +44,12 @@ const App = () => {
   };
 
   const addPerson = (newObject) => {
+    console.log('working');
     personService.create(newObject).then((returnedPerson) => {
+      setMessage(`Added ${newName}`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
       setPersons(persons.concat(returnedPerson));
       setNewName('');
       setNewNumber('');
@@ -88,6 +93,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter
         persons={persons}
         filter={filter}
